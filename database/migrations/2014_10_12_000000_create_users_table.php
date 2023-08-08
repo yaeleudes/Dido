@@ -1,0 +1,46 @@
+<?php
+
+use App\Models\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('nickname');
+            $table->string('telephone');
+            $table->string('email')->unique();
+            // $table->string('date_naiss');
+            $table->string('ville')->default('null');
+            $table->string('commune')->default('null');
+            $table->enum('utype', ['CLT', 'ADM', 'SADM'])->default('CLT');
+            $table->enum('etat', ['attente', 'autorise', 'bloque'])->default('attente');
+            $table->text('description')->default('welcome');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('avatar')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+        
+        // Schema::table('produits', function(Blueprint $table){
+        //     $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
+        // });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
+};
